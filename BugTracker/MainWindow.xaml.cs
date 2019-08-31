@@ -19,7 +19,7 @@ namespace BugTracker
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            e.Cancel = true;
+            e.Cancel = false;
             Visibility = Visibility.Hidden;
         }
 
@@ -34,9 +34,13 @@ namespace BugTracker
                 notifyIcon.BalloonTipIcon = ToolTipIcon.Warning;
                 notifyIcon.Visible = true;
                 notifyIcon.ShowBalloonTip(1000);
+                notifyIcon.Dispose();
             }
-            WindowState = WindowState.Normal;
-            Visibility = Visibility.Visible;
+            else
+            {
+                WindowState = WindowState.Normal;
+                Visibility = Visibility.Visible;
+            }
         }
 
         protected override void OnClosing(System.ComponentModel.CancelEventArgs e)
@@ -44,7 +48,7 @@ namespace BugTracker
             base.OnClosing(e);
             if (WindowState != WindowState.Minimized)
             {
-                e.Cancel = true;
+                e.Cancel = false;
                 Visibility = Visibility.Hidden;
                 WindowState = WindowState.Minimized;
             }
