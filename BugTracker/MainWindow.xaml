@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:tb="http://www.hardcodet.net/taskbar"
         DataContext="{Binding ApplicationViewModel, Source={x:Static Application.Current}}" mc:Ignorable="d"
-        Title="PECOM баг-трекер" MinHeight="300" MinWidth="525" Height="450" Width="700" Background="#333333">
+        Title="Баг-трекер" MinHeight="300" MinWidth="525" Height="450" Width="700" Background="#333333">
     <Window.Resources>
         <Style TargetType="TextBlock">
             <Setter Property="Margin" Value="4" />
