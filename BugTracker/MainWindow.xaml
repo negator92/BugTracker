@@ -1,0 +1,97 @@
+﻿<Window x:Class="BugTracker.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:tb="http://www.hardcodet.net/taskbar"
+        DataContext="{Binding ApplicationViewModel, Source={x:Static Application.Current}}" mc:Ignorable="d"
+        Title="PECOM баг-трекер" MinHeight="300" MinWidth="525" Height="450" Width="700" Background="#333333">
+    <Window.Resources>
+        <Style TargetType="TextBlock">
+            <Setter Property="Margin" Value="4" />
+        </Style>
+        <Style TargetType="TextBox">
+            <Setter Property="Margin" Value="4" />
+        </Style>
+    </Window.Resources>
+    <DockPanel Margin="8,10,8,8">
+        <tb:TaskbarIcon x:Name="myNotifyIcon"
+                    Visibility="Visible"
+                    IconSource="/bug.ico"
+                    MenuActivation="LeftOrRightClick"
+                    ToolTipText="Click for menu"
+                    PopupActivation="DoubleClick">
+            <tb:TaskbarIcon.ContextMenu>
+                <ContextMenu>
+                    <MenuItem Header="Создать сообщение" Click="CreateReport_Click" />
+                    <Separator />
+                    <MenuItem Header="Выход" Click="Exit_Click" />
+                </ContextMenu>
+            </tb:TaskbarIcon.ContextMenu>
+        </tb:TaskbarIcon>
+        <Grid DockPanel.Dock="Top">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*" />
+                <ColumnDefinition Width="1*" />
+                <ColumnDefinition Width="1*" />
+                <ColumnDefinition Width="1*" />
+                <ColumnDefinition Width="1*" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="1*" />
+                <RowDefinition Height="3*" />
+                <RowDefinition Height="1*" />
+            </Grid.RowDefinitions>
+            <TextBlock Text="ФИО пользователя" Foreground="#EEEEEE" Padding="3" Grid.Column="0"
+                       VerticalAlignment="Center" HorizontalAlignment="Left" />
+            <TextBox Text="{Binding UserName, UpdateSourceTrigger=PropertyChanged}" HorizontalContentAlignment="Left" Padding="3"
+                     Grid.Column="1" Grid.ColumnSpan="4" SelectionBrush="Blue" SelectionOpacity="0.25" Background="#EEEEEE" />
+            <TextBlock Text="Телефон" Foreground="#EEEEEE" Padding="3" Grid.Column="0" Grid.Row="1"
+                       VerticalAlignment="Center" HorizontalAlignment="Left" />
+            <TextBox Text="{Binding Phone, UpdateSourceTrigger=PropertyChanged}" HorizontalContentAlignment="Left" Padding="3"
+                     Grid.Row="1" Grid.Column="1" SelectionBrush="Blue" SelectionOpacity="0.25" Background="#EEEEEE" />
+            <TextBlock Text="Комментарий" Foreground="#EEEEEE" Padding="3" Grid.Column="0" Grid.Row="2"
+                       VerticalAlignment="Center" HorizontalAlignment="Left" />
+        </Grid>
+        <TextBox Text="{Binding Message, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center" Padding="3" DockPanel.Dock="Top"
+                 SelectionBrush="Blue" SelectionOpacity="0.25" TextWrapping="WrapWithOverflow" IsReadOnly="True" Background="#EEEEEE" MinHeight="100" />
+        <DockPanel Visibility="Collapsed" DockPanel.Dock="Bottom">
+            <DockPanel DockPanel.Dock="Top">
+                <TextBlock Text="PC bios name:" VerticalAlignment="Center" Foreground="#EEEEEE" DockPanel.Dock="Left"
+                   Margin="0,0,5,0" />
+                <TextBox Text="{Binding BiosPC, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center" Padding="3"
+                 SelectionBrush="Blue" SelectionOpacity="0.25" TextWrapping="WrapWithOverflow" IsReadOnly="True" Background="#EEEEEE" />
+            </DockPanel>
+            <DockPanel DockPanel.Dock="Top">
+                <TextBlock Text="User name:" VerticalAlignment="Center" Foreground="#EEEEEE" DockPanel.Dock="Left"
+                   Margin="0,0,5,0" />
+                <TextBox Text="{Binding UserNamePC, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center" Padding="3"
+                 SelectionBrush="Blue" SelectionOpacity="0.25" TextWrapping="WrapWithOverflow" IsReadOnly="True" Background="#EEEEEE" />
+            </DockPanel>
+            <DockPanel DockPanel.Dock="Top">
+                <TextBlock Text="Date time:" VerticalAlignment="Center" Foreground="#EEEEEE" DockPanel.Dock="Left"
+                   Margin="0,0,5,0" />
+                <TextBox Text="{Binding Time, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center" Padding="3"
+                 SelectionBrush="Blue" SelectionOpacity="0.25" TextWrapping="WrapWithOverflow" IsReadOnly="True" Background="#EEEEEE" />
+            </DockPanel>
+            <DockPanel DockPanel.Dock="Top">
+                <TextBlock Text="Time zone:" VerticalAlignment="Center" Foreground="#EEEEEE" DockPanel.Dock="Left"
+                   Margin="0,0,5,0" />
+                <TextBox Text="{Binding Timezone, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center" Padding="3"
+                 SelectionBrush="Blue" SelectionOpacity="0.25" TextWrapping="WrapWithOverflow" IsReadOnly="True" Background="#EEEEEE" />
+            </DockPanel>
+            <DockPanel DockPanel.Dock="Top">
+                <TextBlock Text="IPv4 address:" VerticalAlignment="Center" Foreground="#EEEEEE" DockPanel.Dock="Left"
+                   Margin="0,0,5,0" />
+                <ComboBox ItemsSource="{Binding IPaddressV4, UpdateSourceTrigger=PropertyChanged}" SelectedIndex="0" VerticalAlignment="Center"
+                 Background="#EEEEEE" Padding="5" />
+            </DockPanel>
+            <DockPanel DockPanel.Dock="Top">
+                <TextBlock Text="IPv6 address:" VerticalAlignment="Center" Foreground="#EEEEEE" DockPanel.Dock="Left"
+                   Margin="0,0,5,0" />
+                <ComboBox ItemsSource="{Binding IPaddressV6, UpdateSourceTrigger=PropertyChanged}" SelectedIndex="0" VerticalAlignment="Center"
+                 Background="#EEEEEE" Padding="5" />
+            </DockPanel>
+        </DockPanel>
+    </DockPanel>
+</Window>
