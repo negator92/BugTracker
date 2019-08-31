@@ -1,4 +1,5 @@
-﻿using System.Drawing;
+﻿using Hardcodet.Wpf.TaskbarNotification;
+using System.Drawing;
 using System.Windows;
 using System.Windows.Forms;
 
@@ -27,33 +28,38 @@ namespace BugTracker
         {
             if (WindowState != WindowState.Minimized)
             {
-                NotifyIcon notifyIcon = new NotifyIcon();
-                notifyIcon.Icon = SystemIcons.Exclamation;
-                notifyIcon.BalloonTipTitle = "Внимание";
-                notifyIcon.BalloonTipText = "Программа уже запущена";
-                notifyIcon.BalloonTipIcon = ToolTipIcon.Warning;
-                notifyIcon.Visible = true;
-                notifyIcon.ShowBalloonTip(1000);
-                notifyIcon.Dispose();
+                //NotifyIcon notifyIcon = new NotifyIcon();
+                //notifyIcon.Icon = SystemIcons.Exclamation;
+                //notifyIcon.BalloonTipTitle = "Внимание";
+                //notifyIcon.BalloonTipText = "Программа уже запущена";
+                //notifyIcon.BalloonTipIcon = ToolTipIcon.Warning;
+                //notifyIcon.Visible = true;
+                //notifyIcon.ShowBalloonTip(2000, "Внимание", "Программа уже запущена", ToolTipIcon.Warning);
+
+                var ni = (TaskbarIcon)FindName("notifyIcon");
+                ni?.ShowBalloonTip("Внимание", "Программа уже запущена", BalloonIcon.Warning);
             }
             else
             {
                 WindowState = WindowState.Normal;
                 Visibility = Visibility.Visible;
             }
+            Activate();
         }
 
         protected override void OnClosing(System.ComponentModel.CancelEventArgs e)
         {
-            base.OnClosing(e);
             if (WindowState != WindowState.Minimized)
             {
-                e.Cancel = false;
+                e.Cancel = true;
                 Visibility = Visibility.Hidden;
                 WindowState = WindowState.Minimized;
             }
             else
-                Close();
+            {
+                e.Cancel = false;
+            base.OnClosing(e);
+            }
         }
 
         private void Exit_Click(object sender, RoutedEventArgs e)

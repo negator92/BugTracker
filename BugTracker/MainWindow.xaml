@@ -15,11 +15,11 @@
         </Style>
     </Window.Resources>
     <DockPanel Margin="8,10,8,8">
-        <tb:TaskbarIcon x:Name="myNotifyIcon"
+        <tb:TaskbarIcon x:Name="notifyIcon"
                     Visibility="Visible"
                     IconSource="/bug.ico"
                     MenuActivation="LeftOrRightClick"
-                    ToolTipText="Click for menu"
+                    ToolTipText="Нажмите для вызова меню"
                     PopupActivation="DoubleClick">
             <tb:TaskbarIcon.ContextMenu>
                 <ContextMenu>
