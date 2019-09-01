@@ -54,13 +54,16 @@
                        VerticalAlignment="Center" HorizontalAlignment="Left" />
         </Grid>
         <TextBox Text="{Binding Message, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center" Padding="3" DockPanel.Dock="Top"
-                 SelectionBrush="Blue" SelectionOpacity="0.25" TextWrapping="WrapWithOverflow" IsReadOnly="True" Background="#EEEEEE" MinHeight="100" />
+                 SelectionBrush="Blue" SelectionOpacity="0.25" Background="#EEEEEE" MinHeight="100" />
         <Grid DockPanel.Dock="Bottom">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="1*" />
                 <ColumnDefinition Width="3*" />
             </Grid.ColumnDefinitions>
             <DockPanel>
+                <Button Visibility="Hidden" DockPanel.Dock="Bottom" HorizontalAlignment="Left" Margin="5">
+                    <TextBlock Text="" />
+                </Button>
                 <Button Visibility="Hidden" DockPanel.Dock="Bottom" HorizontalAlignment="Left" Margin="5">
                     <TextBlock Text="" />
                 </Button>

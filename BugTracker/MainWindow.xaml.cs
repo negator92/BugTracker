@@ -30,6 +30,7 @@ namespace BugTracker
         {
             if (WindowState != WindowState.Minimized)
             {
+                //try to use windows.form feature
                 //NotifyIcon notifyIcon = new NotifyIcon();
                 //notifyIcon.Icon = SystemIcons.Exclamation;
                 //notifyIcon.BalloonTipTitle = "Внимание";
@@ -37,7 +38,8 @@ namespace BugTracker
                 //notifyIcon.BalloonTipIcon = ToolTipIcon.Warning;
                 //notifyIcon.Visible = true;
                 //notifyIcon.ShowBalloonTip(2000, "Внимание", "Программа уже запущена", ToolTipIcon.Warning);
-
+                
+                //try to use NotifyIcon from nuget feature
                 var ni = (TaskbarIcon)FindName("notifyIcon");
                 ni?.ShowBalloonTip("Внимание", "Программа уже запущена", BalloonIcon.Warning);
             }
