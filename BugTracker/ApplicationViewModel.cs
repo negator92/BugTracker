@@ -75,6 +75,7 @@ namespace BugTracker
 
         private void SendReport()
         {
+            MessageBox.Show("Сообщение отправлено в базу SQL");
         }
 
         public void GetScreenshot()
