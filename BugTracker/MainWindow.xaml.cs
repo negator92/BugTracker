@@ -1,5 +1,7 @@
 ﻿using Hardcodet.Wpf.TaskbarNotification;
+using System;
 using System.Drawing;
+using System.Drawing.Imaging;
 using System.Windows;
 using System.Windows.Forms;
 
@@ -43,6 +45,15 @@ namespace BugTracker
             {
                 WindowState = WindowState.Normal;
                 Visibility = Visibility.Visible;
+                Rectangle bounds = Screen.GetBounds(System.Drawing.Point.Empty);
+                using (Bitmap bitmap = new Bitmap(bounds.Width, bounds.Height))
+                {
+                    using (Graphics g = Graphics.FromImage(bitmap))
+                    {
+                        g.CopyFromScreen(System.Drawing.Point.Empty, System.Drawing.Point.Empty, bounds.Size);
+                    }
+                    bitmap.Save($"Скриншот {DateTime.Now.Ticks}.jpg", ImageFormat.Jpeg);
+                }
             }
             Activate();
         }

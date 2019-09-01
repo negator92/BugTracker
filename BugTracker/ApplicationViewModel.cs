@@ -1,25 +1,36 @@
 ﻿using System;
-using System.Diagnostics;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Sockets;
-using System.Windows;
-using System.Windows.Controls;
+using System.Windows.Forms;
 using System.Windows.Input;
 
 namespace BugTracker
 {
     public class ApplicationViewModel : PropertyChangedClass
     {
-        public TextBox TextBoxProcess { get; set; }
-
         public ApplicationViewModel()
         {
-            KillProcessCommand = new RelayCommand(KillProcess,
-                () => !(string.IsNullOrEmpty(BiosPC) && string.IsNullOrWhiteSpace(BiosPC)));
+            DeleteFileCommand = new RelayCommand(DeleteFile,
+                () => Files != null && Files.Count > 0 && !(string.IsNullOrEmpty(SelectedFile) && string.IsNullOrWhiteSpace(SelectedFile)));
+            AddFileCommand = new RelayCommand(AddFile);
+            CancelCommand = new RelayCommand(Cancel);
+            SendReportCommand = new RelayCommand(SendReport,
+                () => Files.Count > 0 && !(string.IsNullOrEmpty(Message) && string.IsNullOrWhiteSpace(Message))
+                && !(string.IsNullOrEmpty(UserName) && string.IsNullOrWhiteSpace(UserName))
+                && Phone > 0);
         }
 
-        public ICommand KillProcessCommand { get; set; }
+        public ICommand DeleteFileCommand { get; set; }
+        public ICommand CancelCommand { get; set; }
+        public ICommand SendReportCommand { get; set; }
+        public ICommand AddFileCommand { get; set; }
+
+        public ObservableCollection<string> Files { get; set; } = new ObservableCollection<string>(new DirectoryInfo(Directory.GetCurrentDirectory()).GetFiles("*.jpg").Select(s => s.FullName)); // Path.GetFileName(
+        public string SelectedFile { get; set; }
 
         public string BiosPC { get; set; } = Environment.MachineName;
         public string UserName { get; set; }
@@ -31,44 +42,44 @@ namespace BugTracker
         public string Time { get; set; } = DateTime.Now.ToString();
         public string Timezone { get; set; } = TimeZoneInfo.Local.DisplayName;
 
-        //string ip()
-        //{
-        //    var host = Dns.GetHostEntry(Dns.GetHostName());
-        //    foreach (var ip in host.AddressList)
-        //    {
-        //        if (ip.AddressFamily == AddressFamily.InterNetwork)
-        //        {
-        //            return ip.ToString();
-        //        }
-        //    }
-        //    throw new Exception("Local IP Address Not Found!");
-        //}
-
-        private void KillProcess()
+        private void DeleteFile()
         {
-            if (BiosPC.Contains(".exe"))
-                BiosPC.Replace(".exe", "");
             try
             {
-                Process[] processNames = Process.GetProcessesByName(BiosPC);
-
-                if (processNames.Length == 0)
-                    MessageBox.Show($"{BiosPC} not found!");
-                else
-                {
-                    foreach (Process process in processNames)
-                        process.Kill();
-                    MessageBox.Show($"{BiosPC} killed!");
-                }
+                File.Delete(SelectedFile);
+                Files.Remove(SelectedFile);
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error, {ex.Message}, {ex.StackTrace}");
+                System.Windows.MessageBox.Show(ex.Message);
+                throw ex;
             }
-            finally
+        }
+
+        private void Cancel()
+            => App.Current.MainWindow.Hide();
+
+        private void AddFile()
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog()
             {
-                TextBoxProcess.SelectAll();
-            }
+                InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Desktop),
+                Filter = $"File.jpg | *.jpg",
+                Title = "Добавить файл",
+            };
+
+            if (openFileDialog.ShowDialog() == DialogResult.OK)
+                if (!(string.IsNullOrEmpty(openFileDialog.FileName) && string.IsNullOrWhiteSpace(openFileDialog.FileName)))
+                    Files.Add(openFileDialog.FileName);
+        }
+
+        private void SendReport()
+        {
+        }
+
+        public void GetScreenshot()
+        {
+            Files.Add(Path.GetFileName("Скриншот 1.jpg"));
         }
     }
 }

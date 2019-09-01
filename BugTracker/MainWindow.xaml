@@ -25,7 +25,7 @@
                 <ContextMenu>
                     <MenuItem Header="Создать сообщение" Click="CreateReport_Click" />
                     <Separator />
-                    <MenuItem Header="Выход" Click="Exit_Click" />
+                    <MenuItem Header="Свернуть/Выход" Click="Exit_Click" />
                 </ContextMenu>
             </tb:TaskbarIcon.ContextMenu>
         </tb:TaskbarIcon>
@@ -55,7 +55,43 @@
         </Grid>
         <TextBox Text="{Binding Message, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center" Padding="3" DockPanel.Dock="Top"
                  SelectionBrush="Blue" SelectionOpacity="0.25" TextWrapping="WrapWithOverflow" IsReadOnly="True" Background="#EEEEEE" MinHeight="100" />
-        <DockPanel Visibility="Collapsed" DockPanel.Dock="Bottom">
+        <Grid DockPanel.Dock="Bottom">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*" />
+                <ColumnDefinition Width="3*" />
+            </Grid.ColumnDefinitions>
+            <DockPanel>
+                <Button Visibility="Hidden" DockPanel.Dock="Bottom" HorizontalAlignment="Left" Margin="5">
+                    <TextBlock Text="" />
+                </Button>
+                <ListBox ItemsSource="{Binding Files, UpdateSourceTrigger=PropertyChanged}" VerticalContentAlignment="Top"
+                     VerticalAlignment="Stretch" DockPanel.Dock="Left" Background="#EEEEEE" Margin="5" Padding="5">
+                </ListBox>
+            </DockPanel>
+            <DockPanel Grid.Column="1">
+                <DockPanel DockPanel.Dock="Bottom">
+                    <Button Command="{Binding SendReportCommand}" DockPanel.Dock="Right" HorizontalAlignment="Right" Margin="5">
+                        <TextBlock Text="Отправить" />
+                    </Button>
+                    <Button Command="{Binding CancelCommand}" DockPanel.Dock="Right" HorizontalAlignment="Right" Margin="5">
+                        <TextBlock Text="Отменить" />
+                    </Button>
+                </DockPanel>
+                <DockPanel DockPanel.Dock="Bottom">
+                    <Button Command="{Binding DeleteFileCommand}" DockPanel.Dock="Left" HorizontalAlignment="Left" Margin="5">
+                        <TextBlock Text="Удалить файл" />
+                    </Button>
+                    <Button Command="{Binding AddFileCommand}" DockPanel.Dock="Left" HorizontalAlignment="Left" Margin="5">
+                        <TextBlock Text="Прикрепить файл" />
+                    </Button>
+                </DockPanel>
+                <Border BorderBrush="Black" Margin="5" Background="GhostWhite">
+                    <Image Source="{Binding Files[0]}" DockPanel.Dock="Top" Margin="2">
+                    </Image>
+                </Border>
+            </DockPanel>
+        </Grid>
+        <!--<DockPanel Visibility="Collapsed" DockPanel.Dock="Bottom">
             <DockPanel DockPanel.Dock="Top">
                 <TextBlock Text="PC bios name:" VerticalAlignment="Center" Foreground="#EEEEEE" DockPanel.Dock="Left"
                    Margin="0,0,5,0" />
@@ -92,6 +128,6 @@
                 <ComboBox ItemsSource="{Binding IPaddressV6, UpdateSourceTrigger=PropertyChanged}" SelectedIndex="0" VerticalAlignment="Center"
                  Background="#EEEEEE" Padding="5" />
             </DockPanel>
-        </DockPanel>
+        </DockPanel>-->
     </DockPanel>
 </Window>
